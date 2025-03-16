@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pumped - Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product {
+            display: inline-block;
+            margin: 15px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+        }
+        .product img {
+            width: 100px;
+            height: 100px;
+        }
+        button {
+            background: linear-gradient(to right, blue, red);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pumped - Shop Our Collection</h2>
+        <div id="products"></div>
+        <button onclick="checkout()">CheckOut</button>
+        <button onclick="cancelOrder()">Cancel</button>
+        <button onclick="exitPage()">Exit</button>
+    </div>
+
+    <script>
+        let products = [
+            { name: "Tracksuit Set", price: 60, img: "//Users/user/Desktop/IA2/assets/track.png" },
+            { name: "T-Shirt (P Logo)", price: 25, img: "/Users/user/Desktop/IA2/assets/ttop.png" },
+            { name: "Sweatpants", price: 30, img: "/Users/user/Desktop/IA2/assets/spants.png" },
+            { name: "Shorts", price: 20, img: "/Users/user/Desktop/IA2/assets/short.png" },
+            { name: "Lifting Belt", price: 45, img: "/Users/user/Desktop/IA2/assets/lbelt.png" },
+            { name: "Lifting Straps", price: 20, img: "/Users/user/Desktop/IA2/assets/lstraps.png" },
+            { name: "Gym Gloves", price: 25, img: "/Users/user/Desktop/IA2/assets/gglove.png" },
+            { name: "Hoodie (P Logo)", price: 50, img: "/Users/user/Desktop/IA2/assets/hodie.png" },
+            { name: "Compression Shirt", price: 35, img: "/Users/user/Desktop/IA2/assets/compression.png" }
+        ];
+
+        let cart = [];
+
+        function loadProducts() {
+            let productContainer = document.getElementById("products");
+            products.forEach((product, index) => {
+                productContainer.innerHTML += `
+                    <div class="product">
+                        <img src="${product.img}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <button onclick="addToCart(${index})">Add to Cart</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            alert(products[index].name + " added to cart!");
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            window.location.href = "invoice.html";
+        }
+
+        function cancelOrder() {
+            cart = [];
+            alert("Order canceled.");
+        }
+
+        function exitPage() {
+            window.location.href = "index.html";
+        }
+
+        window.onload = loadProducts;
+    </script>
+</body>
+</html>

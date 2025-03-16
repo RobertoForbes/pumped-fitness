@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pumped - Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(to right, blue, red);
+            color: white;
+        }
+        button {
+            background: linear-gradient(to right, blue, red);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Invoice</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-body"></tbody>
+        </table>
+        <h3>Subtotal: $<span id="subtotal"></span></h3>
+        <h3>Tax (10%): $<span id="tax"></span></h3>
+        <h3>Total: $<span id="total"></span></h3>
+        <button onclick="cancelOrder()">Cancel</button>
+        <button onclick="exitPage()">Exit</button>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let invoiceBody = document.getElementById("invoice-body");
+        let subtotal = 0;
+
+        cart.forEach(item => {
+            let row = document.createElement("tr");
+            row.innerHTML = `<td>${item.name}</td><td>1</td><td>$${item.price}</td>`;
+            invoiceBody.appendChild(row);
+            subtotal += item.price;
+        });
+
+        let tax = subtotal * 0.1;
+        let total = subtotal + tax;
+
+        document.getElementById("subtotal").textContent = subtotal.toFixed(2);
+        document.getElementById("tax").textContent = tax.toFixed(2);
+        document.getElementById("total").textContent = total.toFixed(2);
+
+        function cancelOrder() {
+            localStorage.removeItem("cart");
+            alert("Order canceled.");
+            window.location.href = "products.html";
+        }
+
+        function exitPage() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
